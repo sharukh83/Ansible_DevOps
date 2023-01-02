@@ -1,0 +1,19 @@
+---
+ - name: playbook
+   hosts: webserver
+   become: yes
+   become_user: root
+   vars:
+      key_file: /etc/apache2/ssl/serve.key
+      cert_file: /etc/apache2/ssl/cert.key
+      server_name: www.mygoldkart.com
+   tasks:
+    - name: ensure apach2e
+      yum:
+        name: httpd
+        state: latest
+      
+  - name: ensure apache is running
+    service: 
+      name: httpd
+      state: start

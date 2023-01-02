@@ -1,0 +1,36 @@
+---
+  - name: play web - create apache directory and server
+    hosts: webservers
+    become: yes
+    become_user: root
+    tasks:  
+      - name: create username apacheadm
+        user:
+          name: apacheadm
+          group: users,admin
+          shell: /bin/bash
+          home: /home/weblogic
+
+      - name: install httpd
+        yum:
+          name: httpd
+          state: installed
+
+#play2 - Application server related tasks
+
+  - name: play app - create tomcat directorie and username
+    hosts: appserver
+    become: yes
+    become_users: root
+    tasks:
+      - name: create username for tomcat
+        group: users
+        shell: /bin/bash
+        home: /home/tomcat
+
+      - name: create a directory for apache 
+        file: /opt/oracle
+        owner: tomcat
+        group: users
+        state: present
+        mode: 0755
